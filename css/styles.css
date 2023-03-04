@@ -1,1 +1,150 @@
 /* developer styles go here */
+body {
+    font-family: sans-serif;
+}
+
+header {
+    max-width: 58rem;
+    margin: 0 auto;
+}
+
+/* STEP 1 - Style all menu links for small screen 
+    Text styling goes on the anchor tag to overwrite browser styles 
+    Layout and spacing properties goe on the <li> elements 
+*/
+
+ul.menu {
+    background-color: #191919;
+
+}
+
+ul.menu a {
+    color: #f5f5f5;
+    /* text-decoration: none; */
+    text-transform: uppercase;
+    display: block;
+    /* Changes the anchor tag from being an inline element to a block level element
+        and make the entire <li> element a clickable block 
+        IMPORTANT STEP for Smartphone / Tablet development */
+    padding: 0 1rem;
+    /* Adds a padding to move text over but still be a clickable area  */
+}
+
+ul.menu li {
+    line-height: 2rem;
+    margin-bottom: 0.5rem;  
+    /* creates a spacing below each <li> element which is NOT clickable */
+    
+}
+
+/* Smartphones/Tablets do not have hover state, but they do have an active state.
+    Active states indicate to a user that a link has been clicked (touched) */
+ul.menu a:hover,
+ul.menu a:active {
+    background-color: #5f2e2e;
+    border-radius: 5px;
+}
+
+ul.submenu {
+    padding: 0 1rem;
+    /* Use padding to indent */
+    
+}
+ul.submenu a {
+    text-decoration: none;
+}
+
+svg {
+    display: none;
+    /* hides the svg graphic from the small screen */
+}
+
+@media screen and (min-width: 58rem) {
+    ul.menu {
+        display: flex;
+        /* Converts unordered list (ul) to a flex-container making all li elements
+            flex-items, and displays them in a row format */
+        justify-content: space-between;
+        /* takes the left over space on the viewport and spaces it between each
+            flex-item */
+    }
+    ul.menu li {
+        position: relative;
+        /* Makes the li element relative so submenu items stay confined within them */
+        flex: 1 0 auto;
+        /* makes all the li menu elements grow to fill the max-width and evenly
+            space flex-items across the screen */
+        text-align: center;
+        /* aligns the text in each flex-item */
+        margin-bottom: 0;
+    }
+    li.dropdown a {
+        display: flex;
+        /* makes the anchor tag and the svg graphic element flex-items in the
+            li.dropdown flex-container */
+        justify-content: center;
+        /* centers the flex-items inside the flex-container */
+        gap: 0.5rem;
+        /* adds gap spacing between flex-items (between anchor and svg)*/
+    }
+
+    svg {
+        display: block;
+        /* shows the svg graphic (because it's hidden above */
+        width: 1rem;
+        /* sets the width of the svg graphic on the HTML page to resize it */
+    }
+    svg path {
+        fill: #f5f5f5;
+        /* applies a color to the svg graphic */
+    }
+
+/* STEP 2 - Position and hide the dropdown submenu */
+
+    ul.submenu {
+        padding: 0;
+        /* removes the padding which indeted the text */
+        position: absolute;
+        /* Takes the submenu list elements out of the flow of the HTML doc */
+        background-color: #191919;
+        /* Adds the background colour back to the submenu. 
+            The background colour was removed because it is first applied to 
+            the ul.menu. But when applying the position:absolute to the ul.submenu
+            this gets removed */
+        border-radius: 0 0 5px 5px;
+        /* rounds the bottom left/right of the corners */
+
+        /* left: 1rem; */
+        right: 0;
+        /* positions elements */
+
+        visibility: hidden;
+        opacity: 0;
+        /* hides the submenu li elements */
+    }
+
+/* STEP 3 - Add a hover state that will show the submenu */
+    ul.menu li:hover > ul.submenu {
+    /* applies the following styles ONLY to li elements which contain ul elements */
+        visibility: visible;
+        opacity: 1;
+        /* unhides the submenu li elements */
+    }
+
+/* STEP 4 - Add transition to remove the clunkiness */
+    ul.submenu {
+        transition: all 0.5s ease;
+        /* adds a transition that takes 0.5seconds to fade in/out */
+
+    }
+/* STEP 5 - Add keyboard accessibility using focus-within state */
+/* https://webaim.org/techniques/keyboard/ */
+    ul.menu li:focus-within > ul,
+    ul.menu li > ul:focus {
+        /*  */
+        visibility: visible;
+        opacity: 1;
+        /* Makes the items visisble */
+        display: block;
+    }
+}
